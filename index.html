@@ -2,11 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sachin Goyal | Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    /* Hide thank you section initially */
+    #thankyou-section { display: none; }
+  </style>
 </head>
-<body class="bg-gray-900 text-white font-sans">
+<body class="bg-gray-900 text-white font-sans transition-colors duration-500">
 
   <!-- Header -->
   <header class="bg-gray-800 p-6 shadow-md">
@@ -17,6 +22,7 @@
         <a href="#resume" class="hover:text-teal-400">Resume</a>
         <a href="#projects" class="hover:text-teal-400">Projects</a>
         <a href="#contact" class="hover:text-teal-400">Contact</a>
+        <button onclick="toggleTheme()" class="bg-gray-700 px-2 py-1 rounded hover:bg-gray-600 text-sm">Toggle Theme</button>
       </nav>
     </div>
   </header>
@@ -24,56 +30,160 @@
   <!-- Hero -->
   <section class="text-center py-20 bg-gradient-to-r from-teal-600 to-blue-700">
     <h2 class="text-4xl font-bold mb-4">Hi, I'm Sachin 👋</h2>
-    <p class="text-xl">A passionate developer with expertise in C++, DSA, and Machine Learning</p>
+    <p class="text-xl text-white">
+      <span id="typing-text"></span><span class="border-r-2 border-white animate-pulse"></span>
+    </p>
   </section>
 
   <!-- About -->
   <section id="about" class="max-w-4xl mx-auto py-16 px-4">
     <h3 class="text-3xl font-semibold mb-4">About Me</h3>
     <p class="text-lg leading-relaxed">
-      I'm a driven undergraduate with a strong foundation in problem-solving, data structures, and machine learning. I love building intelligent systems and continuously learning new technologies.
+      I'm a computer engineering student at Thapar Institute with strong skills in C++, data structures, OOP, and full-stack development. I love building smart systems and exploring ML, DBMS, and modern tools.
     </p>
   </section>
 
   <!-- Resume -->
   <section id="resume" class="max-w-4xl mx-auto py-16 px-4">
     <h3 class="text-3xl font-semibold mb-4">Resume</h3>
-    <ul class="list-disc pl-6 space-y-2 text-lg">
-      <li><strong>Languages:</strong> C++, Python, SQL</li>
-      <li><strong>Technologies:</strong> Machine Learning, Flask, Oracle DB, Git</li>
-      <li><strong>Education:</strong> B.Tech in Computer Science</li>
-    </ul>
-    <a href="resume.pdf" download class="inline-block mt-4 bg-teal-500 text-white py-2 px-4 rounded hover:bg-teal-600">
+    <p class="mb-4 text-lg">You can view or download my resume below:</p>
+    <iframe src="SachinGoyal_Resume.pdf" width="100%" height="600px" class="border border-gray-700 rounded shadow"></iframe>
+    <a href="SachinGoyal_Resume.pdf" download class="inline-block mt-4 bg-teal-500 text-white py-2 px-4 rounded hover:bg-teal-600">
       📄 Download Resume
     </a>
   </section>
 
   <!-- Projects -->
   <section id="projects" class="max-w-4xl mx-auto py-16 px-4">
-    <h3 class="text-3xl font-semibold mb-4">Projects</h3>
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="bg-gray-800 p-4 rounded shadow">
-        <h4 class="text-xl font-semibold">AI Medical Assistant</h4>
-        <p class="text-sm">A smart assistant built with ML and Gradio for sleep prediction, disease diagnosis, and health advice.</p>
+    <h3 class="text-3xl font-semibold mb-6">Projects</h3>
+    <div class="space-y-6">
+      <div class="bg-gray-800 p-5 rounded shadow">
+        <h4 class="text-xl font-bold mb-1">AI Personal Health Assistant</h4>
+        <p class="text-sm mb-2">Python, Gradio, ML, GeoPy</p>
+        <p class="text-gray-300 text-sm mb-2">Predicts sleep quality, estimates disease risk, recommends nutrition, locates doctors.</p>
+        <a href="https://github.com/SachinGoyal94/Ai-Personal-Health-Assistant-" target="_blank" class="text-teal-400 underline">View Project</a>
       </div>
-      <div class="bg-gray-800 p-4 rounded shadow">
-        <h4 class="text-xl font-semibold">Library Management System</h4>
-        <p class="text-sm">Full-stack system using Oracle SQL and Flask for issuing, returning, and fine management.</p>
+
+      <div class="bg-gray-800 p-5 rounded shadow">
+        <h4 class="text-xl font-bold mb-1">Library Management System</h4>
+        <p class="text-sm mb-2">Oracle SQL, DBMS</p>
+        <p class="text-gray-300 text-sm mb-2">Manages book records, issues, returns, fines with normalized schema & CRUD operations.</p>
+        <a href="https://github.com/SachinGoyal94/Library-Management-System" target="_blank" class="text-teal-400 underline">View Project</a>
+      </div>
+
+      <div class="bg-gray-800 p-5 rounded shadow">
+        <h4 class="text-xl font-bold mb-1">Banking System (OOP)</h4>
+        <p class="text-sm mb-2">C++, OOP, File Handling</p>
+        <p class="text-gray-300 text-sm mb-2">Account operations via console using inheritance, encapsulation, and file I/O.</p>
+        <a href="https://github.com/SachinGoyal94/Banking-Systems" target="_blank" class="text-teal-400 underline">View Project</a>
       </div>
     </div>
   </section>
 
   <!-- Contact -->
-  <section id="contact" class="max-w-4xl mx-auto py-16 px-4">
+  <section id="contact" class="max-w-4xl mx-auto py-16 px-4 text-center">
     <h3 class="text-3xl font-semibold mb-4">Contact</h3>
-    <p class="text-lg">📧 sachin@example.com</p>
-    <p class="text-lg">🌐 <a href="https://github.com/SachinGoyal94" class="text-teal-400 underline">GitHub Profile</a></p>
+
+    <!-- Form section -->
+    <form 
+      id="contact-form"
+      action="https://formspree.io/f/xovwjjrz" 
+      method="POST" 
+      class="space-y-4 max-w-md mx-auto"
+      onsubmit="handleSubmit(event)"
+    >
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="text" name="name" placeholder="Your Name" required class="w-full p-2 rounded bg-gray-800 border border-gray-600 text-white" />
+      <input type="email" name="email" placeholder="Your Email" required class="w-full p-2 rounded bg-gray-800 border border-gray-600 text-white" />
+      <textarea name="message" placeholder="Your Message" rows="4" required class="w-full p-2 rounded bg-gray-800 border border-gray-600 text-white"></textarea>
+      <button type="submit" class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded">Send Message</button>
+    </form>
+
+    <!-- Thank you message section -->
+    <div id="thankyou-section" class="max-w-md mx-auto mt-8 p-6 bg-gray-800 rounded shadow">
+      <h2 class="text-4xl font-bold mb-4">Thank You!</h2>
+      <p class="text-lg mb-4">Thanks for reaching out. I will get back to you soon.</p>
+      <button onclick="resetForm()" class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded">Send Another Message</button>
+    </div>
+
+    <p class="mt-6 text-lg">
+      Or connect with me on 
+      <a href="https://www.linkedin.com/in/sachin-goyal-518770311" class="text-teal-400 underline">LinkedIn</a> or 
+      <a href="https://github.com/SachinGoyal94" class="text-teal-400 underline">GitHub</a>.
+    </p>
   </section>
 
   <!-- Footer -->
-  <footer class="text-center p-6 bg-gray-800">
-    <p class="text-sm text-gray-400">© 2025 Sachin Goyal. All rights reserved.</p>
+  <footer class="text-center p-6 bg-gray-800 text-sm text-gray-400">
+    © 2025 Sachin Goyal. All rights reserved.
   </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Typing animation
+    const texts = ["An aspiring C++ Developer", "DSA Enthusiast", "AI & ML Explorer", "Future Software Engineer"];
+    let i = 0, j = 0, current = "", isDeleting = false;
+
+    function type() {
+      if (i < texts.length) {
+        if (!isDeleting && j <= texts[i].length) {
+          current = texts[i].substring(0, j++);
+        } else if (isDeleting && j >= 0) {
+          current = texts[i].substring(0, j--);
+        }
+        document.getElementById("typing-text").textContent = current;
+        if (j === texts[i].length) isDeleting = true;
+        if (isDeleting && j === 0) { isDeleting = false; i = (i + 1) % texts.length; }
+        setTimeout(type, isDeleting ? 60 : 100);
+      }
+    }
+    type();
+
+    // Light/Dark toggle
+    function toggleTheme() {
+      document.body.classList.toggle('bg-white');
+      document.body.classList.toggle('text-black');
+      document.querySelectorAll('section, header, footer').forEach(el => {
+        el.classList.toggle('bg-gray-100');
+        el.classList.toggle('text-black');
+        el.classList.toggle('bg-gray-800');
+        el.classList.toggle('text-white');
+      });
+    }
+
+    // Handle form submission via JS to show thank-you message
+    async function handleSubmit(event) {
+      event.preventDefault();
+      const form = event.target;
+
+      const data = new FormData(form);
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          headers: { 'Accept': 'application/json' },
+          body: data,
+        });
+
+        if (response.ok) {
+          form.style.display = "none";
+          document.getElementById('thankyou-section').style.display = "block";
+        } else {
+          alert('Oops! There was a problem submitting your form.');
+        }
+      } catch (error) {
+        alert('Oops! There was a problem submitting your form.');
+      }
+    }
+
+    // Reset form to send another message
+    function resetForm() {
+      const form = document.getElementById('contact-form');
+      form.reset();
+      form.style.display = "block";
+      document.getElementById('thankyou-section').style.display = "none";
+    }
+  </script>
 
 </body>
 </html>
