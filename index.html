@@ -224,10 +224,10 @@
         Sachin Goyal
       </h1>
       <nav class="space-x-6 flex items-center">
-        <a href="#about" class="hover:text-teal-400 transition-all duration-300">About</a>
-        <a href="#resume" class="hover:text-teal-400 transition-all duration-300">Resume</a>
-        <a href="#projects" class="hover:text-teal-400 transition-all duration-300">Projects</a>
-        <a href="#contact" class="hover:text-teal-400 transition-all duration-300">Contact</a>
+        <a href="#about" class="nav-link hover:text-teal-400 transition-all duration-300">About</a>
+        <a href="#resume" class="nav-link hover:text-teal-400 transition-all duration-300">Resume</a>
+        <a href="#projects" class="nav-link hover:text-teal-400 transition-all duration-300">Projects</a>
+        <a href="#contact" class="nav-link hover:text-teal-400 transition-all duration-300">Contact</a>
         <button onclick="toggleTheme()" class="glass-effect px-3 py-2 rounded-lg hover:bg-gray-600 text-sm transition-all duration-300 btn-enhanced">
           🌓 Theme
         </button>
@@ -236,7 +236,7 @@
   </header>
 
   <!-- Enhanced Hero Section -->
-  <section class="hero-parallax text-center py-24 relative overflow-hidden">
+  <section id="home" class="hero-parallax text-center py-24 relative overflow-hidden">
     <div class="relative z-10">
       <h2 class="text-6xl font-extrabold mb-6 animate-pulse bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
         Hi, I'm Sachin 👋
@@ -718,6 +718,86 @@
       }
     }
 
+    // URL-based Section Navigation Functions
+    function navigateToSection() {
+      const path = window.location.pathname;
+      const hash = window.location.hash;
+      
+      // Extract section name from URL path or hash
+      let sectionName = '';
+      
+      if (path.includes('/projects')) {
+        sectionName = 'projects';
+      } else if (path.includes('/about')) {
+        sectionName = 'about';
+      } else if (path.includes('/resume')) {
+        sectionName = 'resume';
+      } else if (path.includes('/contact')) {
+        sectionName = 'contact';
+      } else if (path.includes('/home')) {
+        sectionName = 'home';
+      } else if (hash) {
+        sectionName = hash.substring(1); // Remove the # symbol
+      }
+      
+      if (sectionName) {
+        // Wait for page to load completely
+        setTimeout(() => {
+          const targetSection = document.getElementById(sectionName);
+          if (targetSection) {
+            // Smooth scroll to the section
+            targetSection.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+            
+            // Update URL without page reload if needed
+            const currentPath = window.location.pathname;
+            const basePath = currentPath.includes('/website/') ? '/website/' : '/';
+            const expectedPath = basePath + sectionName;
+            
+            if (currentPath !== expectedPath && !currentPath.includes('#')) {
+              window.history.replaceState({}, '', expectedPath);
+            }
+          }
+        }, 100);
+      }
+    }
+
+    // Handle navigation clicks to update URL
+    function updateNavigation() {
+      // Get all navigation links
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // Get the target section from href
+          const href = this.getAttribute('href');
+          const sectionName = href.replace('#', '');
+          
+          // Scroll to section
+          const targetSection = document.getElementById(sectionName);
+          if (targetSection) {
+            targetSection.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+            
+            // Update URL
+            const basePath = window.location.pathname.includes('/website/') ? '/website/' : '/';
+            window.history.pushState({}, '', basePath + sectionName);
+          }
+        });
+      });
+    }
+
+    // Handle browser back/forward buttons
+    window.addEventListener('popstate', function(e) {
+      navigateToSection();
+    });
+
     // Initialize when page loads
     document.addEventListener('DOMContentLoaded', function() {
       // Initialize TypeWriter
@@ -732,6 +812,10 @@
           "Future Software Engineer"
         ]);
       }
+
+      // Initialize navigation
+      updateNavigation();
+      navigateToSection();
 
       // Enhanced scroll animations
       const observerOptions = {
@@ -751,8 +835,8 @@
         observer.observe(el);
       });
 
-      // Smooth scrolling for navigation
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      // Smooth scrolling for other anchor links
+      document.querySelectorAll('a[href^="#"]:not(.nav-link)').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
           e.preventDefault();
           const target = document.querySelector(this.getAttribute('href'));
@@ -764,6 +848,11 @@
           }
         });
       });
+    });
+
+    // Also run on window load as backup
+    window.addEventListener('load', function() {
+      navigateToSection();
     });
 
     // Enhanced theme toggle
